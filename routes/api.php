@@ -82,8 +82,13 @@ Route::group([
       Route::delete('eliminar', 'EvaluacionController@eliminar');
       Route::get('mostrar', 'EvaluacionController@mostrar');
       Route::get('listar', 'EvaluacionController@listar');
+<<<<<<< HEAD
       Route::post('por-usuario','EvaluacionController@porUsuario');
       Route::get('promedio-profesor', 'EvaluacionController@promedioProfesor');
+=======
+      Route::get('por-usuario','EvaluacionController@porUsuario');
+      Route::get('promedio-profesor', 'EvaluacionController@obtenerPromedio');
+>>>>>>> 55c2ab5efd4f46a7a1857859b69ee556f863d6cd
       Route::get('promedio-profesores', 'EvaluacionController@promedioProfesores');
   });
 
