@@ -11,7 +11,9 @@ class Evaluacion extends Model
     protected $fillable= [
         'calificacion',
         'fecha',
-        'id_profesor'
+        'id_profesor',
+		'id_user',
+		'id_curso'
     ];
 
     public function set(){

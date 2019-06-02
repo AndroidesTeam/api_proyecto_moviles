@@ -82,7 +82,7 @@ Route::group([
       Route::delete('eliminar', 'EvaluacionController@eliminar');
       Route::get('mostrar', 'EvaluacionController@mostrar');
       Route::get('listar', 'EvaluacionController@listar');
-      Route::get('por-usuario','EvaluacionController@porUsuario');
+      Route::post('por-usuario','EvaluacionController@porUsuario');
       Route::get('promedio-profesor', 'EvaluacionController@promedioProfesor');
       Route::get('promedio-profesores', 'EvaluacionController@promedioProfesores');
   });

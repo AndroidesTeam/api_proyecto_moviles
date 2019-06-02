@@ -69,7 +69,8 @@ class UserController extends Controller
                 $tokenResult->token->expires_at
             )->toDateTimeString()
             ];
-        return $this->success($resp);
+
+        return $this->success($user);
     }
   
     /**
