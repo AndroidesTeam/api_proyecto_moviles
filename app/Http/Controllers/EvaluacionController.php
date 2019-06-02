@@ -24,7 +24,7 @@ class EvaluacionController extends Controller
 
         $set = $request->set;
         $evaluacion = Evaluacion::create([
-                'id_user'=>$request->id_usuario,
+                'id_user'=>$request->id_user,
                 'fecha'=>$request->fecha,
                 'id_curso'=>$request->id_curso
             ]);
@@ -100,7 +100,7 @@ class EvaluacionController extends Controller
         ->where('id_profesor',$id_profesor)
         ->where('id_pregunta',$pregunta)
         ->where('id_curso',$id_curso);
-
+        
         return $evaluaciones;
     }
 
@@ -150,15 +150,12 @@ class EvaluacionController extends Controller
     }
 
     public function porUsuario(Request $request){
-        $data = Evaluacion::where('id_usuario',$request->id_usuario)
+        $data = Evaluacion::where('id_user',$request->id_user)
         ->where('id_curso',$request->id_curso)
-        ->first();
+		->first();
         if(!$data) {
             return $this->response(["Objeto no encontrado"],200);
         }
-        $comentario = Comentario::where('id_usuario',$request->id_usuario)->first();
-        $data->evaluaciones = $data->set;
-        $data->comentario = $comentario;
         return $this->success($data);
     }
 
