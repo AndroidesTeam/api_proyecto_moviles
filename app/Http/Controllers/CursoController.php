@@ -43,7 +43,7 @@ class CursoController extends Controller
         return $this->success($data);
     }
     public function mostrar(Request $request){
-        $data = Curso::where('id_profesor',$request->id_profesor)->where('id_materia',$id_materia)->fisrt();
+        $data = Curso::where('id_materia',$request->id_materia)-> where('id_profesor',$request->id_profesor)->first();
         if(!$data) {
             return $this->error(["Objeto no encontrado"]);
         }
