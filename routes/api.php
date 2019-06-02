@@ -83,7 +83,7 @@ Route::group([
       Route::get('mostrar', 'EvaluacionController@mostrar');
       Route::get('listar', 'EvaluacionController@listar');
       Route::get('por-usuario','EvaluacionController@porUsuario');
-      Route::get('promedio-profesor', 'EvaluacionController@promedioProfesor');
+      Route::get('promedio-profesor', 'EvaluacionController@obtenerPromedio');
       Route::get('promedio-profesores', 'EvaluacionController@promedioProfesores');
   });
 
