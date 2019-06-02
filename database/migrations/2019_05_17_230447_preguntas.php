@@ -16,6 +16,7 @@ class Preguntas extends Migration
         Schema::create('pregunta', function (Blueprint $table) {
             $table->increments('id');
             $table->string('pregunta');
+			$table->integer('NoPregunta');
             $table->timestamps();
         });
     }
