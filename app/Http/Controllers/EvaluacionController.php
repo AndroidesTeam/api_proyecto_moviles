@@ -50,7 +50,7 @@ class EvaluacionController extends Controller
 
         $cont =1;
         $preguntas=array();
-        while($cont < 9){
+        while($cont < 8){
             $evaluacion = $this->porPregunta($cont,$request->id_profesor);
             $total_respuestas = $evaluacion->count();
             $total_uno= $evaluacion->where('set.puntuacion',1)->count();
