@@ -12,7 +12,7 @@ class EvaluacionController extends Controller
     public function insertar(Request $request){
         $rules = [
             'calificacion' => 'required',
-            'fecha' => 'required',
+            'fecha' => 'required',  
             'id_usuario' => 'required|exists:users,id',
             'id_curso' => 'required|exists:curso,id'
         ];
@@ -24,7 +24,7 @@ class EvaluacionController extends Controller
 
         $set = $request->set;
         $evaluacion = Evaluacion::create([
-                'id_user'=>$request->id_user,
+                'id_user'=>$request->id_usuario,
                 'fecha'=>$request->fecha,
                 'id_curso'=>$request->id_curso
             ]);
@@ -100,7 +100,7 @@ class EvaluacionController extends Controller
         ->where('id_profesor',$id_profesor)
         ->where('id_pregunta',$pregunta)
         ->where('id_curso',$id_curso);
-        
+
         return $evaluaciones;
     }
 
