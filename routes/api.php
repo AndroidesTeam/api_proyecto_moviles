@@ -80,7 +80,7 @@ Route::group([
       Route::post('insertar', 'EvaluacionController@insertar');
       Route::post('actualizar', 'EvaluacionController@actualizar');
       Route::delete('eliminar', 'EvaluacionController@eliminar');
-      Route::get('mostrar', 'EvaluacionController@mostrar');
+      Route::post('mostrar', 'EvaluacionController@mostrar');
       Route::get('listar', 'EvaluacionController@listar');
 	  Route::get('obtenerPromedio','EvaluacionController@obtenerPromedio');
       Route::post('por-usuario','EvaluacionController@porUsuario');

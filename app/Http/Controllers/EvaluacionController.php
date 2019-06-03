@@ -45,7 +45,8 @@ class EvaluacionController extends Controller
         $calificacion = $calificacion/count($request->set);
         $evaluacion->calificacion=$calificacion;
         $evaluacion->save();
-        return $this->success($evaluacion);
+		
+        return $this->success($sets);
     }
 
     public function obtenerPromedio(Request $request){
@@ -123,12 +124,22 @@ class EvaluacionController extends Controller
 
     public function actualizar(Request $request){
         $array = $request->all();
-        $data = Evaluacion::find($request->id);
+        $data = Evaluacion::where('id_user',$request->id_usuario)
+		->where('id_curso',$request->id_curso)
+		->first();
+		
         if(!$data) {
             return $this->error(["Objeto no encontrado"]);
         }
-        $data->update($array);
-        return $this->success($data);
+		$id_evaluacion = $data->id;
+		$set = $request->set;
+        foreach ($set as $sets) {
+            $sets = json_decode($sets);
+            $s = Set::where('id_evaluacion',$id_evaluacion)
+			->where('id_pregunta',$sets->id_pregunta)
+			->update(['puntuacion'=>$sets->puntuacion]);
+        }
+        return $this->success($sets);
     }
 
     public function eliminar($id){
@@ -144,12 +155,21 @@ class EvaluacionController extends Controller
         $data = Evaluacion::get();
         return $this->success($data);
     }
-    public function mostrar($id){
-        $data = Evaluacion::find($id);
+    public function mostrar(Request $request){
+        $data = Evaluacion::where('id_user',$request->id_usuario)
+		->where('id_curso',$request->id_curso)
+		->first();
+		
         if(!$data) {
             return $this->response(["Objeto no encontrado"],200);
         }
-        return $this->success($data);
+		
+		$id_evaluacion=$data->id;
+		
+		$set = Set::where('id_evaluacion',$id_evaluacion)
+		->get();
+		
+        return $this->success($set);
     }
 
     public function porUsuario(Request $request){
