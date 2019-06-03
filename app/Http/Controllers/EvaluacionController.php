@@ -8,6 +8,8 @@ use App\Profesor;
 use App\Comentario;
 use App\Curso;
 use App\Set;
+use function GuzzleHttp\json_decode;
+
 class EvaluacionController extends Controller
 {
     public function insertar(Request $request){
@@ -31,11 +33,12 @@ class EvaluacionController extends Controller
             ]);
         $calificacion=0;
         foreach ($set as $sets) {
+            $sets = json_decode($sets);
             $respuesta = [
                 'id_evaluacion'=>$evaluacion->id,
-                'id_pregunta'=>$sets['id_pregunta'],
-                'puntuacion'=>$sets['puntuacion']
-            ];
+                'id_pregunta'=>$sets->id_pregunta,
+                'puntuacion'=>$sets->puntuacion
+           ];
             $s=Set::create($respuesta);
             $calificacion+= $s->puntuacion;
         }
