@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Evaluacion;
 use App\Profesor;
 use App\Comentario;
+use App\Curso;
 use App\Set;
 class EvaluacionController extends Controller
 {
@@ -46,7 +47,6 @@ class EvaluacionController extends Controller
 
     public function obtenerPromedio(Request $request){
         $evaluaciones = Evaluacion::join('curso','curso.id','=','evaluacion.id_curso')
-        ->where('id_profesor',$request->id_profesor)
         ->where('id_curso',$request->id_curso);
         $suma=$evaluaciones->sum('calificacion');
         $promedio = $suma/$evaluaciones->count();
@@ -56,7 +56,8 @@ class EvaluacionController extends Controller
         $cuantos2 = $evaluaciones->where('calificacion',2)->count();
         $cuantos3 = $evaluaciones->where('calificacion',3)->count();        
         $cuantos4 = $evaluaciones->where('calificacion',4)->count();*/
-        $profesor = Profesor::find($request->id_profesor);
+        $curso= Curso::find($request->id_curso)->first();
+        $profesor = Profesor::find($curso->id_profesor);
         $profesor->promedio = $promedio;
         /*$profesor->respuesta1= $cuantos1;
         $profesor->respuesta2= $cuantos2;
@@ -67,14 +68,14 @@ class EvaluacionController extends Controller
         $cont =1;
         $preguntas=array();
         while($cont < 9){
-            $evaluacion = $this->porPregunta($cont,$request->id_profesor,$request->id_curso);
+            $evaluacion = $this->porPregunta($cont,$request->id_curso);
             $total_respuestas = $evaluacion->count();
             $total_uno= $evaluacion->where('set.puntuacion',1)->count();
-            $evaluacion = $this->porPregunta($cont,$request->id_profesor,$request->id_curso);
+            $evaluacion = $this->porPregunta($cont,$request->id_curso);
             $total_dos= $evaluacion->where('set.puntuacion',2)->count();
-            $evaluacion = $this->porPregunta($cont,$request->id_profesor,$request->id_curso);
+            $evaluacion = $this->porPregunta($cont,$request->id_curso);
             $total_tres= $evaluacion->where('set.puntuacion',3)->count();
-            $evaluacion = $this->porPregunta($cont,$request->id_profesor,$request->id_curso);
+            $evaluacion = $this->porPregunta($cont,$request->id_curso);
             $total_cuatro= $evaluacion->where('set.puntuacion',4)->count();
 
             array_push($preguntas,[
@@ -94,10 +95,9 @@ class EvaluacionController extends Controller
     }
 
     //funcion auxiliar
-    public function porPregunta($pregunta,$id_profesor,$id_curso){
+    public function porPregunta($pregunta,$id_curso){
         $evaluaciones= Evaluacion::join('curso','curso.id','=','evaluacion.id_curso')
         ->join('set','set.id_evaluacion','=','evaluacion.id')
-        ->where('id_profesor',$id_profesor)
         ->where('id_pregunta',$pregunta)
         ->where('id_curso',$id_curso);
 
