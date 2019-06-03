@@ -142,14 +142,17 @@ class EvaluacionController extends Controller
         return $this->success($sets);
     }
 
-    public function eliminar($id){
-        $data = Evaluacion::find($id);
+    public function eliminar(Request $request){
+        $data = Evaluacion::where('id_user',$request->id_usuario)
+		->where('id_curso',$request->id_curso)
+		->first();
         if(!$data) {
             return $this->error(["Objeto no encontrado"]);
         }
-
+		$id_evaluacion = $data->id;
+		$set = Set::where('id_evaluacion',$id_evaluacion)->delete();
         $data->delete();
-        return $this->succes(["objeto eliminado correctamente"]);
+        return $this->success("Evaluacion eliminada");
     }
     public function listar(){
         $data = Evaluacion::get();

@@ -79,7 +79,7 @@ Route::group([
   ], function() {
       Route::post('insertar', 'EvaluacionController@insertar');
       Route::post('actualizar', 'EvaluacionController@actualizar');
-      Route::delete('eliminar', 'EvaluacionController@eliminar');
+      Route::post('eliminar', 'EvaluacionController@eliminar');
       Route::post('mostrar', 'EvaluacionController@mostrar');
       Route::get('listar', 'EvaluacionController@listar');
 	  Route::get('obtenerPromedio','EvaluacionController@obtenerPromedio');
