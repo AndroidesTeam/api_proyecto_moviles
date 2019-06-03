@@ -55,17 +55,9 @@ class EvaluacionController extends Controller
         $promedio = $suma/$evaluaciones->count();
 
         $cuantos = $evaluaciones->count();
-        /*$cuantos1 = $evaluaciones->where('calificacion',1)->count();
-        $cuantos2 = $evaluaciones->where('calificacion',2)->count();
-        $cuantos3 = $evaluaciones->where('calificacion',3)->count();        
-        $cuantos4 = $evaluaciones->where('calificacion',4)->count();*/
-        $curso= Curso::find($request->id_curso)->first();
+        $curso= Curso::where('id',$request->id_curso)->first();
         $profesor = Profesor::find($curso->id_profesor);
         $profesor->promedio = $promedio;
-        /*$profesor->respuesta1= $cuantos1;
-        $profesor->respuesta2= $cuantos2;
-        $profesor->respuesta3= $cuantos3;
-        $profesor->respuesta4= $cuantos4;*/
         $profesor->cuantos= $cuantos;
 
         $cont =1;
