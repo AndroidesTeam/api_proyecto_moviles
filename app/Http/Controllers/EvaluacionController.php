@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Evaluacion;
 use App\Profesor;
 use App\Comentario;
+use App\Curso;
 use App\Set;
 class EvaluacionController extends Controller
 {
@@ -55,7 +56,8 @@ class EvaluacionController extends Controller
         $cuantos2 = $evaluaciones->where('calificacion',2)->count();
         $cuantos3 = $evaluaciones->where('calificacion',3)->count();        
         $cuantos4 = $evaluaciones->where('calificacion',4)->count();*/
-        $profesor = Profesor::find($request->id_profesor);
+        $curso= Curso::find($request->id_curso)->first();
+        $profesor = Profesor::find($curso->id_profesor);
         $profesor->promedio = $promedio;
         /*$profesor->respuesta1= $cuantos1;
         $profesor->respuesta2= $cuantos2;
