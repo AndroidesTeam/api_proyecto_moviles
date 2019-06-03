@@ -43,8 +43,11 @@ class ComentarioController extends Controller
         $data = Comentario::get();
         return $this->success($data);
     }
-    public function mostrar($id){
-        $data = Comentario::find($id);
+    public function mostrar(Request $request){
+        $data = Comentario::where('id_user',$request->id_usuario)
+		->where('id_curso',$request->id_curso)
+		->first();
+		
         if(!$data) {
             return $this->error(["Objeto no encontrado"]);
         }

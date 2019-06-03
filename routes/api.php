@@ -59,7 +59,7 @@ Route::group([
       Route::post('insertar', 'ComentarioController@insertar');
       Route::post('actualizar', 'ComentarioController@actualizar');
       Route::delete('eliminar', 'ComentarioController@eliminar');
-      Route::get('mostrar', 'ComentarioController@mostrar');
+      Route::post('mostrar', 'ComentarioController@mostrar');
       Route::get('listar', 'ComentarioController@listar');
       Route::get('comentarios-profesor', 'ComentarioController@obtenerComentariosPorProfesor');
   });

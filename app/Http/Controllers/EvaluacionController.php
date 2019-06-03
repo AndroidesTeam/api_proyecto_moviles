@@ -46,6 +46,13 @@ class EvaluacionController extends Controller
         $evaluacion->calificacion=$calificacion;
         $evaluacion->save();
 		
+		$comentario = new Comentario;
+		$comentario->id_user = $request->id_usuario;
+		$comentario->id_curso = $request->id_curso;
+		$comentario->texto = $request->comentario;
+		$comentario->fecha = $request->fecha;
+		$comentario->save();
+		
         return $this->success($sets);
     }
 
@@ -139,6 +146,9 @@ class EvaluacionController extends Controller
 			->where('id_pregunta',$sets->id_pregunta)
 			->update(['puntuacion'=>$sets->puntuacion]);
         }
+		$comentario = Comentario::where('id_curso',$request->id_curso)
+		->where('id_user',$request->id_usuario)->update(['texto'=>$request->comentario]);
+		
         return $this->success($sets);
     }
 
@@ -151,6 +161,10 @@ class EvaluacionController extends Controller
         }
 		$id_evaluacion = $data->id;
 		$set = Set::where('id_evaluacion',$id_evaluacion)->delete();
+		$comentario = Comentario::where('id_user',$request->id_usuario)
+		->where('id_curso',$request->id_curso)
+		->first();
+		$comentario->delete();
         $data->delete();
         return $this->success("Evaluacion eliminada");
     }
