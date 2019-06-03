@@ -59,7 +59,7 @@ Route::group([
       Route::post('insertar', 'ComentarioController@insertar');
       Route::post('actualizar', 'ComentarioController@actualizar');
       Route::delete('eliminar', 'ComentarioController@eliminar');
-      Route::get('mostrar', 'ComentarioController@mostrar');
+      Route::post('mostrar', 'ComentarioController@mostrar');
       Route::get('listar', 'ComentarioController@listar');
       Route::get('comentarios-profesor', 'ComentarioController@obtenerComentariosPorProfesor');
   });
@@ -79,8 +79,8 @@ Route::group([
   ], function() {
       Route::post('insertar', 'EvaluacionController@insertar');
       Route::post('actualizar', 'EvaluacionController@actualizar');
-      Route::delete('eliminar', 'EvaluacionController@eliminar');
-      Route::get('mostrar', 'EvaluacionController@mostrar');
+      Route::post('eliminar', 'EvaluacionController@eliminar');
+      Route::post('mostrar', 'EvaluacionController@mostrar');
       Route::get('listar', 'EvaluacionController@listar');
 	  Route::get('obtenerPromedio','EvaluacionController@obtenerPromedio');
       Route::post('por-usuario','EvaluacionController@porUsuario');

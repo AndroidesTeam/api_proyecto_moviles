@@ -45,7 +45,15 @@ class EvaluacionController extends Controller
         $calificacion = $calificacion/count($request->set);
         $evaluacion->calificacion=$calificacion;
         $evaluacion->save();
-        return $this->success($evaluacion);
+		
+		$comentario = new Comentario;
+		$comentario->id_user = $request->id_usuario;
+		$comentario->id_curso = $request->id_curso;
+		$comentario->texto = $request->comentario;
+		$comentario->fecha = $request->fecha;
+		$comentario->save();
+		
+        return $this->success($sets);
     }
 
     public function obtenerPromedio(Request $request){
@@ -115,33 +123,62 @@ class EvaluacionController extends Controller
 
     public function actualizar(Request $request){
         $array = $request->all();
-        $data = Evaluacion::find($request->id);
+        $data = Evaluacion::where('id_user',$request->id_usuario)
+		->where('id_curso',$request->id_curso)
+		->first();
+		
         if(!$data) {
             return $this->error(["Objeto no encontrado"]);
         }
-        $data->update($array);
-        return $this->success($data);
+		$id_evaluacion = $data->id;
+		$set = $request->set;
+        foreach ($set as $sets) {
+            $sets = json_decode($sets);
+            $s = Set::where('id_evaluacion',$id_evaluacion)
+			->where('id_pregunta',$sets->id_pregunta)
+			->update(['puntuacion'=>$sets->puntuacion]);
+        }
+		$comentario = Comentario::where('id_curso',$request->id_curso)
+		->where('id_user',$request->id_usuario)->update(['texto'=>$request->comentario]);
+		
+        return $this->success($sets);
     }
 
-    public function eliminar($id){
-        $data = Evaluacion::find($id);
+    public function eliminar(Request $request){
+        $data = Evaluacion::where('id_user',$request->id_usuario)
+		->where('id_curso',$request->id_curso)
+		->first();
         if(!$data) {
             return $this->error(["Objeto no encontrado"]);
         }
-
+		$id_evaluacion = $data->id;
+		$set = Set::where('id_evaluacion',$id_evaluacion)->delete();
+		$comentario = Comentario::where('id_user',$request->id_usuario)
+		->where('id_curso',$request->id_curso)
+		->first();
+		$comentario->delete();
         $data->delete();
-        return $this->succes(["objeto eliminado correctamente"]);
+        return $this->success("Evaluacion eliminada");
     }
     public function listar(){
         $data = Evaluacion::get();
         return $this->success($data);
     }
-    public function mostrar($id){
-        $data = Evaluacion::find($id);
+    public function mostrar(Request $request){
+        $data = Evaluacion::where('id_user',$request->id_usuario)
+		->where('id_curso',$request->id_curso)
+		->first();
+		
         if(!$data) {
             return $this->response(["Objeto no encontrado"],200);
         }
-        return $this->success($data);
+		
+		$id_evaluacion=$data->id;
+		
+		$set = Set::where('id_evaluacion',$id_evaluacion)
+		->get();
+		
+        return $this->success($set);
     }
 
     public function porUsuario(Request $request){
